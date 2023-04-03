@@ -8,11 +8,11 @@ namespace Assets.Scripts.Utility
         GameStart, GameEnd
     }
 
-    public static class EventBus
+    public class EventBus
     {
-        private static readonly Dictionary<GameplayEvent, List<Action<BaseEventParams>>> _subscription = new();
+        private readonly Dictionary<GameplayEvent, List<Action<BaseEventParams>>> _subscription = new();
 
-        public static void Subscribe(GameplayEvent eventType, Action<BaseEventParams> handler)
+        public void Subscribe(GameplayEvent eventType, Action<BaseEventParams> handler)
         {
             if (_subscription.ContainsKey(eventType) == false)
                 _subscription.Add(eventType, new List<Action<BaseEventParams>>());
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Utility
                 _subscription[eventType].Add(handler);
         }
 
-        public static void Unsubscribe(GameplayEvent eventType, Action<BaseEventParams> handler)
+        public void Unsubscribe(GameplayEvent eventType, Action<BaseEventParams> handler)
         {
             if (_subscription.ContainsKey(eventType) == false)
                 return;
@@ -30,17 +30,14 @@ namespace Assets.Scripts.Utility
             handlersList.Remove(handler);
         }
 
-        public static void Publish(GameplayEvent eventType, BaseEventParams eventParams)
+        public void Publish(GameplayEvent eventType, BaseEventParams eventParams)
         {
             if (_subscription.ContainsKey(eventType) == false)
                 return;
 
             var handlers = _subscription[eventType];
-            for (int i = 0; i < handlers.Count; i++)
-            {
-                var handler = handlers[i];
+            foreach (var handler in handlers)
                 handler?.Invoke(eventParams);
-            }
         }
     }
 }
