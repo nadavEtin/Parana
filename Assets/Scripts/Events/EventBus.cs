@@ -14,29 +14,29 @@ namespace Assets.Scripts.Utility
 
         public void Subscribe(GameplayEvent eventType, Action<BaseEventParams> handler)
         {
-            if (_subscription.ContainsKey(eventType) == false)
-                _subscription.Add(eventType, new List<Action<BaseEventParams>>());
+            var handlerList = _subscription[eventType];
+            if (handlerList == null)
+            {
+                handlerList = new List<Action<BaseEventParams>>();
+                _subscription.Add(eventType, handlerList);
+            }
 
-            if (_subscription[eventType].Contains(handler) == false)
-                _subscription[eventType].Add(handler);
+            if (handlerList.Contains(handler) == false)
+                handlerList.Add(handler);
         }
 
         public void Unsubscribe(GameplayEvent eventType, Action<BaseEventParams> handler)
         {
-            if (_subscription.ContainsKey(eventType) == false)
-                return;
-
-            var handlersList = _subscription[eventType];
-            handlersList.Remove(handler);
+            _subscription[eventType]?.Remove(handler);
         }
 
         public void Publish(GameplayEvent eventType, BaseEventParams eventParams)
         {
-            if (_subscription.ContainsKey(eventType) == false)
+            var handlerList = _subscription[eventType];
+            if (handlerList == null)
                 return;
 
-            var handlers = _subscription[eventType];
-            foreach (var handler in handlers)
+            foreach (var handler in handlerList)
                 handler?.Invoke(eventParams);
         }
     }

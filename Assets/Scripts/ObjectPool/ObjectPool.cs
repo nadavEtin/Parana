@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameCore.Factories;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -7,16 +8,18 @@ namespace Assets.Scripts.Utility
 {
     public enum ObjectTypes
     {
-
+        GenericObject
     }
 
     public class ObjectPool : IObjectPool
     {
         private readonly Dictionary<ObjectTypes, List<GameObject>> _objectPool;
+        private readonly Dictionary<ObjectTypes, BaseGameObjectFactory> _objectFactory;
 
         public ObjectPool()
         {
             _objectPool = new Dictionary<ObjectTypes, List<GameObject>>();
+            _objectFactory = new Dictionary<ObjectTypes, BaseGameObjectFactory>();
         }
 
         public void AddObjectToPool(GameObject obj, ObjectTypes type)
