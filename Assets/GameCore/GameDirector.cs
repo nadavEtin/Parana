@@ -1,26 +1,28 @@
 using Assets.Scripts.Utility;
-using VContainer.Unity;
+using GameCore.Jsons;
+using GameCore.ScriptableObjects;
+using GameCore.ServerAPI;
+using TournamentHistory;
+using UnityEngine;
 
 namespace GameCore
 {
-    public class GameDirector : IStartable, ITickable
+    [RequireComponent(typeof(UWebRequest))]
+    public class GameDirector : MonoBehaviour
     {
-        private readonly EventBus _eventBus;
+        [SerializeField] private AssetRefs _assetRefs;
+        [SerializeField] private UIManager _uiManagerRef;
+        private EventBus _eventBus;
+        private IUWebRequest _webRequest;
+        private IUIManager _uiManager;
         
-        public GameDirector(EventBus bus)
-        {
-            _eventBus = bus;
-        }
-        
-        public void Start()
-        {
-            
-        
-        }
 
-        public void Tick()
+        private void Start()
         {
-            
+            _eventBus = new EventBus();
+            _webRequest = GetComponent<UWebRequest>();
+            _uiManager = _uiManagerRef;
+            _uiManager.Init(_assetRefs, _webRequest);
         }
     }
 }
