@@ -6,6 +6,7 @@ using GameCore.Jsons;
 using GameCore.ScriptableObjects;
 using GameCore.ServerAPI;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace TournamentHistory
 {
@@ -32,17 +33,17 @@ namespace TournamentHistory
         {
             var details = JsonUtility.FromJson<TDRoot>(jsonData).Content.TournamentDetails;
             var history = _tournamentInfo.Keys.FirstOrDefault(a => a.ID == details.TournamentID);
-            if (success)
+            if (success && history != null)
             {
                 //assign the relevant data
                 _tournamentInfo[history] = details;
-                var historyView = GameObject.Instantiate(_tournamentHistoryPrefab, _viewsContainer).GetComponent<ITournamentHistoryView>();
-                var date = DateTime.UnixEpoch.AddMilliseconds(history.CreationTimestamp).Date;
-                var playerDetails = details.Participants.Find(a => a.IsYou == true);
-                historyView.InitData(details.TournamentDefition.TournamentType, details.TournamentDefition.ParticipantsCount,
-                    date, playerDetails.ScorePosition, playerDetails.PrizeAmountGems);
+                var historyView = Object.Instantiate(_tournamentHistoryPrefab, _viewsContainer)
+                    .GetComponent<ITournamentHistoryView>();
+                historyView.InitData(history, details);
+                /*historyView.InitData(details.TournamentDefition.GameType,
+                    details.TournamentDefition.ParticipantsCount,
+                    date, playerDetails.ScorePosition, playerDetails.PrizeAmountGems);*/
             }
-            Debug.Log("");
         }
 
         private void HistoryRequestDone(bool result, string jsonData)
@@ -54,13 +55,13 @@ namespace TournamentHistory
             else
             {
                 var data = JsonUtility.FromJson<TournamentHistoryData>(jsonData);
-                var tournyHistories = data.Content.tournaments;
-                for (int i = 0; i < tournyHistories.Count; i++)
+                var histories = data.Content.tournaments;
+                for (int i = 0; i < histories.Count; i++)
                 {
                     //save the currently available data
-                    _tournamentInfo.Add(tournyHistories[i], null);
-                    //var historyView = GameObject.Instantiate(historyViewPrefab, _viewsContainer).GetComponent<ITournamentHistoryView>();
-                    _webRequest.GetRequest(string.Format(_webRequest.TournamentDetailsUri, tournyHistories[i].ID), DetailsRequestDone);
+                    _tournamentInfo.Add(histories[i], null);
+                    _webRequest.GetRequest(string.Format(_webRequest.TournamentDetailsUri, histories[i].ID),
+                        DetailsRequestDone);
                 }
 
                 //var historyViewPrefab = _assetRefs.TournamentHistoryPrefab;

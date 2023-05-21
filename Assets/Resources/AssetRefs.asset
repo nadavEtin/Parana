@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 269f96afa74e458586ce0a8c78cb5874, type: 3}
   m_Name: AssetRefs
   m_EditorClassIdentifier: 
-  _tournamentHistoryPrefab: {fileID: 2100936351754482551, guid: a3ab8ec56162bf34a9e957e6240385b0, type: 3}
+  tournamentHistoryPrefab: {fileID: 2100936351754482551, guid: a3ab8ec56162bf34a9e957e6240385b0, type: 3}
+  tournamentDetailsViewPrefab: {fileID: 4251602956788276724, guid: dc15366151571884dbb4130370ce6aa4, type: 3}
+  tournamentDetailsContainer: {fileID: 3814259890184074340, guid: 5c9bab48fb555ce458f721f9aed8600a, type: 3}
+  detailsMenuPrefab: {fileID: 4395648332112654236, guid: 5e328c7d8640f2c41893961e0ae0472f, type: 3}
