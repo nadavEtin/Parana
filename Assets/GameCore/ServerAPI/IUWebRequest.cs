@@ -1,4 +1,5 @@
 ﻿using System;
+using GameCore.Events;
 
 namespace GameCore.ServerAPI
 {
@@ -7,5 +8,6 @@ namespace GameCore.ServerAPI
         string TournamentHistoryUri { get; }
         string TournamentDetailsUri { get; }
         void GetRequest(string uri, Action<bool, string> onFinishCallback);
+        void Init(EventBus eventBus);
     }
 }

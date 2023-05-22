@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GameCore.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "AssetRefs", menuName = "Scriptable Objects/Asset References")]
     public class AssetRefs : ScriptableObject
     {
-        [SerializeField] private GameObject tournamentHistoryPrefab;
+        [SerializeField] private GameObject _tournamentHistoryPrefab, _tournamentDetailsViewPrefab,
+            _detailsMenuPrefab, _tournamentDetailsContainer, _popupPrefab;
 
-        [SerializeField] private GameObject tournamentDetailsViewPrefab;
-
-        [SerializeField] private GameObject tournamentDetailsContainer, detailsMenuPrefab;
-
-        public GameObject TournamentHistoryPrefab => tournamentHistoryPrefab;
-        public GameObject TournamentDetailsViewPrefab => tournamentDetailsViewPrefab;
-        public GameObject TournamentDetailsContainer => tournamentDetailsContainer;
-        public GameObject DetailsMenuPrefab => detailsMenuPrefab;
+        public GameObject TournamentHistoryPrefab => _tournamentHistoryPrefab;
+        public GameObject TournamentDetailsViewPrefab => _tournamentDetailsViewPrefab;
+        public GameObject TournamentDetailsContainer => _tournamentDetailsContainer;
+        public GameObject DetailsMenuPrefab => _detailsMenuPrefab;
+        public GameObject PopupPrefab => _popupPrefab;
     }
 }

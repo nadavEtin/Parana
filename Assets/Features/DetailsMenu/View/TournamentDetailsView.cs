@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Features.DetailsMenu.TournamentDetailsView
+namespace Features.DetailsMenu.View
 {
     public class TournamentDetailsView : MonoBehaviour, ITournamentDetailsView
     {

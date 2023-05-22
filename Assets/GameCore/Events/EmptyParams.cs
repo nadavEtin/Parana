@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Utility.Events
+﻿namespace GameCore.Events
 {
     public class EmptyParams : BaseEventParams
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assets.Scripts.Utility
+namespace GameCore.Events
 {
     public enum GameplayEvent
     {

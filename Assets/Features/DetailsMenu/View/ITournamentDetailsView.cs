@@ -1,6 +1,6 @@
 ﻿using GameCore.Jsons;
 
-namespace Features.DetailsMenu.TournamentDetailsView
+namespace Features.DetailsMenu.View
 {
     public interface ITournamentDetailsView
     {

@@ -1,31 +1,27 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using GameCore.Jsons;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
-namespace TournamentHistoryView
+namespace Features.TournamentHistoryView.View
 {
     public class TournamentHistoryView : MonoBehaviour, ITournamentHistoryView
     {
         [SerializeField] private TextMeshProUGUI nameLabel, playersCountLabel, dateLabel, rankLabel, prizeLabel;
         [SerializeField] private Button leaderboardBtn;
+        private ITournamentHistoryManager _historyManager;
         private PrizeType _prizeType = PrizeType.None;
-        private List<GameObject> _detailsViews;
         private GameObject _detailViewsContainer;
-
-        private void Start()
-        {
-            _detailsViews = new List<GameObject>();
-        }
+        private TournamentDetails _tournamentDetails;
 
         public void InitData(TournamentGeneralInfo history, TournamentDetails details,
-            GameObject detailsContainer)
+            GameObject detailsContainer, ITournamentHistoryManager manager)
         {
+            _historyManager = manager;
             _detailViewsContainer = detailsContainer;
+            _tournamentDetails = details;
             var date = DateTime.UnixEpoch.AddMilliseconds(history.CreationTimestamp).Date;
             var playerDetails = details.Participants.FirstOrDefault(a => a.IsYou);
             nameLabel.text = $"{details.TournamentDefition.GameType} Pool";
@@ -46,12 +42,12 @@ namespace TournamentHistoryView
             }
         }
 
-        private void TournamentDetailsSetup(GameObject view)
+        public void LeaderboardBtnClick()
         {
-            _detailsViews.Add(view);
-            
+            _historyManager.SetDetailsContainer(_detailViewsContainer, _tournamentDetails);
         }
 
+        //Returns a string matching the reward
         private string RewardString(PrizeType type, int amount = 0)
         {
             switch (type)
@@ -66,15 +62,5 @@ namespace TournamentHistoryView
                     return "Better luck next time!"; 
             }
         }
-
-        /*public void InitData(string tournamentName, int count, DateTime date, int rank, int prize)
-        {
-            tourName.text = $"{tournamentName} Pool";
-            playersCount.text = $"{count} Players";
-            this.date.text = date.ToString(CultureInfo.CurrentCulture);
-            this.rank.text = rank.ToString();
-            if (prize > 0)
-                this.prize.text = prize.ToString();
-        }*/
     }
 }

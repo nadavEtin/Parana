@@ -1,6 +1,7 @@
-using Assets.Scripts.Utility;
+using GameCore.Events;
 using GameCore.ScriptableObjects;
 using GameCore.ServerAPI;
+using GameCore.UI;
 using UnityEngine;
 
 namespace GameCore
@@ -19,8 +20,9 @@ namespace GameCore
         {
             _eventBus = new EventBus();
             _webRequest = GetComponent<UWebRequest>();
+            _webRequest.Init(_eventBus);
             _uiManager = _uiManagerRef;
-            _uiManager.Init(_assetRefs, _webRequest);
+            _uiManager.Init(_assetRefs, _webRequest, _eventBus);
         }
     }
 }
